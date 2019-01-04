@@ -1,0 +1,32 @@
+<html>
+  <head></head>
+  <body>
+
+    <div id="loading">
+      Loading
+    </div>
+
+    <h1 id="title"></h1>
+    <h2 id="bchfile"></h2>
+    <article id="body"></article>
+
+    <script src="https://cdn.jsdelivr.net/npm/lzutf8/build/production/lzutf8.js"></script>
+    <script src="https://honest.cash/js/simple-bitcoin-wallet.min.js"></script>
+
+    <script>
+      const simpleWallet = new SimpleWallet();
+      const bchfile = "bitcoinfile:f33e3c3727c1575a7885e231c1ae20d80d1e39de279e7928ba071837c34aca4c";
+
+      (async () => {
+        let story = await simpleWallet.download(bchfile);
+
+        story = JSON.parse(LZUTF8.decompress(story.data, { inputEncoding: "Base64" }));
+
+        document.getElementById("bchfile").innerHTML = bchfile;
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("title").innerHTML = story.title;
+        document.getElementById("body").innerHTML = story.body;
+      })();
+    </script>
+</body>
+</html>
